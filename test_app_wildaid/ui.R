@@ -61,7 +61,23 @@ dashboardPage(
               # tab box
               tabBox(id = "tab_box3", width = 12, 
                      # tab panels NOTE: theres an additional argument "value" that could be useful... look later
-                     tabPanel(title = "Viz 1", icon = icon("question"), h4("(h4) tabpanel placeholder")),
+                     
+                     
+                     tabPanel(title = "Compare category scores between MPA sites", icon = icon("question"),
+                              tabsetPanel(
+                                tabPanel(
+                              sidebarLayout(
+                                sidebarPanel(
+                                  pickerInput(inputId = "year_input",
+                                              label = "Select Year:",
+                                              choices = unique(MPS_tracker_data$year),
+                                              options = pickerOptions(actionsBox = TRUE),
+                                              selected = c("C", "S"),
+                                              multiple = TRUE
+                                  )
+                                )
+                              )))),
+                     
                      tabPanel(title = "Viz 2", icon = icon("question"), h4("(h4) tabpanel placeholder")),
                      tabPanel(title = "Viz 3", icon = icon("question"), h4("(h4) tabpanel placeholder")))
       ) # end viz tab

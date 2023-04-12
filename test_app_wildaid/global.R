@@ -10,6 +10,8 @@ library(radiant.data)
 library(DT)
 library(janitor)
 library(shinycssloaders)
+library(hrbrthemes)
+library(shinyWidgets)
 
 # Read in our data: ---- 
 
@@ -31,6 +33,8 @@ MPS_tracker_data <- MPS_tracker_data |>
          country = as.factor(country)) |> 
   select(-indicator_type) # take out indicator type because obsolete 
 
-# Make some filters here or interactive plots here: 
+
+###### WHERE IM AT:
+###### i have added stuff in for the lollipop graph, but it doesn't do anything. might not have put it in the right place.  haven't added any reactivity but the app runs without it showing up ... loook at the two file app for how to make some dropdowns... might have to play with the code I made a little bit 
 
 
