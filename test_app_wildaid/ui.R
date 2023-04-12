@@ -42,9 +42,7 @@ dashboardPage(
               tabBox(id = "tab_box1", width = 12, 
                      # tab panels
                      tabPanel(title = "About", icon = icon("address-card"), h4("(h4) tabpanel placeholder")),
-                     tabPanel(title = "Map", icon = icon("map"), 
-                              leafletOutput(outputId = "MPA_map") |>  
-                              withSpinner(type = 1, color = "#742361")))
+                     tabPanel(title = "Map", icon = icon("map"), leafletOutput(outputId = "MPA_map")))
       ), # end welcome tab
       
       # Data tab ----
@@ -63,20 +61,8 @@ dashboardPage(
                      # tab panels NOTE: theres an additional argument "value" that could be useful... look later
                      
                      
-                     tabPanel(title = "Compare category scores between MPA sites", icon = icon("question"),
-                              tabsetPanel(
-                                tabPanel(
-                              sidebarLayout(
-                                sidebarPanel(
-                                  pickerInput(inputId = "year_input",
-                                              label = "Select Year:",
-                                              choices = unique(MPS_tracker_data$year),
-                                              options = pickerOptions(actionsBox = TRUE),
-                                              selected = c("C", "S"),
-                                              multiple = TRUE
-                                  )
-                                )
-                              )))),
+                     tabPanel(title = "Compare category scores between MPA sites", icon = icon("question")
+                              ),
                      
                      tabPanel(title = "Viz 2", icon = icon("question"), h4("(h4) tabpanel placeholder")),
                      tabPanel(title = "Viz 3", icon = icon("question"), h4("(h4) tabpanel placeholder")))
