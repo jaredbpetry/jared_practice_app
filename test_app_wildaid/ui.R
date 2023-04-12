@@ -42,7 +42,9 @@ dashboardPage(
               tabBox(id = "tab_box1", width = 12, 
                      # tab panels
                      tabPanel(title = "About", icon = icon("address-card"), h4("(h4) tabpanel placeholder")),
-                     tabPanel(title = "Map", icon = icon("map"), h2("(h2) tabpanel placeholder")))
+                     tabPanel(title = "Map", icon = icon("map"), 
+                              leafletOutput(outputId = "MPA_map") |>  
+                              withSpinner(type = 1, color = "#742361")))
       ), # end welcome tab
       
       # Data tab ----

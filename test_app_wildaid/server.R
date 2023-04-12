@@ -1,6 +1,6 @@
 function(input, output, session) {
   
-  # DT datatable:
+  # DT datatable: ----
   output$dt_table <- DT::renderDataTable(
     DT::datatable(MPS_tracker_data, 
                   escape=TRUE, # don't understand what this does could be important
@@ -13,9 +13,20 @@ function(input, output, session) {
                                       list(targets = 4, width = '10px')), # play with column widths
                     scrollX = TRUE
                   )))
-  # an idea is to see whether we can make the 'notes' entries expandable ??
-  # is the score set to numeric but the year is not? we may have to change that in order to get the filter slider correct 
-  # let's try to get drop down menus for the categories and maybe some other things
-  # PROBLEM: some search bars aren't side enough to allow you to see what you are typing
+  
+  # Leaflet Map ----
+  output$MPA_map <- renderLeaflet({
+    leaflet(data = map_data) %>%
+      addProviderTiles(providers$Stamen.Terrain,
+                       options = providerTileOptions(noWrap = TRUE)
+      ) %>%
+      addMarkers(lng = ~longitude, lat = ~latitude, 
+                 popup = paste0("Site: ", map_data$site, "<br>",
+                                "Country: ", map_data$country, "<br>",
+                                "Partners: ", map_data$partners, "<br>",
+                                "Site Manager(s):", map_data$p_ms))
+  })
+  
+  
 
 }
