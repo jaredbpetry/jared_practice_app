@@ -1,6 +1,6 @@
 function(input, output, session) {
   
-  # DT datatable:
+  # DT datatable ----
   output$dt_table <- DT::renderDataTable(
     DT::datatable(data = select(MPS_tracker_data, -visualization_include), # take out a column
                   rownames = FALSE,
@@ -16,22 +16,25 @@ function(input, output, session) {
                   )))
 #browser()
   
-  # Leaflet Map ----
+  # LEAFLET MAP  ----
   
   # Define your scoring scale and associated colors
-  score_scale <- c(1, 2, 3, 4, 5)  # Example scoring scale
-  color_palette <- colorRampPalette(c("#00A6A6", "#7FB069", "#094074", "#F4D067", "#E17000"))(n = length(score_scale) - 1)
+  score_scale <- c(1, 2, 3, 4, 5, 6)  # Example scoring scale
+  color_palette <- c("#00A6A6", "#7FB069", "#094074", "#F4D067", "#E88B84", "#E17000")
+  status_word <- c("1: Discovery", "2: Partnership", "3: Enforcement design", "4: Implimentation", "5: Mentorship", "6: Regional Leadership")
   
-  # Create a function to map scores to colors
-  score_to_color <- function(score) {
-    color_idx <- findInterval(score, score_scale, all.inside = TRUE)
-    return(color_palette[color_idx])
-  }
+  # make a little dataframe to join the colors to the number column 
+  color_df <- data.frame(status_numb = score_scale, 
+                         colors = color_palette, 
+                         word = status_word)
+  
+  # left join to the status_numb column 
+  sites_w_color <- left_join(sites, color_df, by = "status_numb")
   
   # map output
   output$MPA_map <- renderLeaflet({
     leaflet(data = map_data) %>%
-      addProviderTiles(providers$Stamen.Terrain,
+      addProviderTiles(providers$Esri.WorldTopoMap,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
       addCircleMarkers(lng = ~longitude, 
@@ -42,7 +45,11 @@ function(input, output, session) {
                  popup = paste0("Site: ", map_data$site, "<br>",
                                 "Country: ", map_data$country, "<br>",
                                 "Partners: ", map_data$partners, "<br>",
-                                "Site Manager(s):", map_data$p_ms))
+                                "Site Manager(s): ", map_data$p_ms, "<br>", 
+                                "Implimentation Status: ", map_data$status)) |> 
+      addLegend(colors = color_palette,
+                labels = status_word,
+                position = "bottomright")
   })
   
   
